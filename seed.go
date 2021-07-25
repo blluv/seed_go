@@ -349,6 +349,13 @@ func char2word(c []byte, off uint32) uint32 {
 	return uint32(c[off])<<24 | uint32(c[off+1])<<16 | uint32(c[off+2])<<8 | uint32(c[off+3])
 }
 
+func word2char(in uint32, out []byte, off uint32) {
+	out[off] = byte(in >> 24)
+	out[off+1] = byte(in >> 16)
+	out[off+2] = byte(in >> 8)
+	out[off+3] = byte(in)
+}
+
 func g_func(val uint32) uint32 {
 	return SS[0][val&0xff] ^ SS[1][val>>8&0xff] ^ SS[2][val>>16&0xff] ^ SS[3][val>>24&0xff]
 }
@@ -445,9 +452,9 @@ func Encrypt(in []byte, out []byte, roundKey []uint32) {
 	seedRound(&R0, &R1, &L0, &L1, roundKey, 30)
 
 	for i := 0; i < 4; i++ {
-		out[i] = byte((R0 >> uint32(8*(3-i))) & 0xff)
-		out[4+i] = byte((R1 >> uint32(8*(3-i))) & 0xff)
-		out[8+i] = byte((L0 >> uint32(8*(3-i))) & 0xff)
-		out[12+i] = byte((L1 >> uint32(8*(3-i))) & 0xff)
+		word2char(R0, out, 0)
+		word2char(R1, out, 4)
+		word2char(L0, out, 8)
+		word2char(L1, out, 12)
 	}
 }
