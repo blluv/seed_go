@@ -106,12 +106,10 @@ func seedEncrypt(in []byte, out []byte, roundKey []uint32) {
 	seedRound(&L0, &L1, &R0, &R1, roundKey, 28)
 	seedRound(&R0, &R1, &L0, &L1, roundKey, 30)
 
-	for i := 0; i < 4; i++ {
-		word2char(R0, out, 0)
-		word2char(R1, out, 4)
-		word2char(L0, out, 8)
-		word2char(L1, out, 12)
-	}
+	word2char(R0, out, 0)
+	word2char(R1, out, 4)
+	word2char(L0, out, 8)
+	word2char(L1, out, 12)
 }
 
 func seedDecrypt(in []byte, out []byte, roundKey []uint32) {
@@ -137,10 +135,8 @@ func seedDecrypt(in []byte, out []byte, roundKey []uint32) {
 	seedRound(&L0, &L1, &R0, &R1, roundKey, 2)
 	seedRound(&R0, &R1, &L0, &L1, roundKey, 0)
 
-	for i := 0; i < 4; i++ {
-		word2char(R0, out, 0)
-		word2char(R1, out, 4)
-		word2char(L0, out, 8)
-		word2char(L1, out, 12)
-	}
+	word2char(R0, out, 0)
+	word2char(R1, out, 4)
+	word2char(L0, out, 8)
+	word2char(L1, out, 12)
 }
