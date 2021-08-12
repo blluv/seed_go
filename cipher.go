@@ -6,6 +6,7 @@ import (
 )
 
 const BlockSize = 16
+const RoundKeySize = 32
 
 type seedCipher struct {
 	roundKey []uint32
@@ -26,8 +27,7 @@ func NewCipher(key []byte) (cipher.Block, error) {
 }
 
 func newCipherGeneric(key []byte) (cipher.Block, error) {
-	n := len(key) + 28
-	c := seedCipher{make([]uint32, n)}
+	c := seedCipher{make([]uint32, RoundKeySize)}
 	seedRoundKey(key, c.roundKey)
 	return &c, nil
 }

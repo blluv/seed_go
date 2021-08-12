@@ -15,7 +15,7 @@ func g_func(val uint32) uint32 {
 	return SS[0][val&0xff] ^ SS[1][val>>8&0xff] ^ SS[2][val>>16&0xff] ^ SS[3][val>>24&0xff]
 }
 
-func roundKeyUpdate0(K []uint32, A, B, C, D *uint32, Z, off uint32) {
+func roundKeyUpdate0(K []uint32, A, B, C, D *uint32, Z uint32, off uint32) {
 	T0 := *A + *C - KC[Z]
 	T1 := *B + KC[Z] - *D
 	K[off+0] = g_func(T0)
@@ -25,7 +25,7 @@ func roundKeyUpdate0(K []uint32, A, B, C, D *uint32, Z, off uint32) {
 	*B = (*B >> 8) ^ (T0 << 24)
 }
 
-func roundKeyUpdate1(K []uint32, A, B, C, D *uint32, Z, off uint32) {
+func roundKeyUpdate1(K []uint32, A, B, C, D *uint32, Z uint32, off uint32) {
 	T0 := *A + *C - KC[Z]
 	T1 := *B + KC[Z] - *D
 	K[off+0] = g_func(T0)

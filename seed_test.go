@@ -1,17 +1,18 @@
 package seedgo
 
 import (
-	"bytes"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-type CryptCase struct {
+type cryptCase struct {
 	key        []byte
 	plainText  []byte
 	cipherText []byte
 }
 
-var cases = []CryptCase{
+var cases = []cryptCase{
 	{
 		[]byte{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F},
 		[]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
@@ -39,11 +40,7 @@ func TestSeedEncrypt(t *testing.T) {
 		dst := make([]byte, 16)
 		c.Encrypt(dst, tcase.plainText)
 
-		if !bytes.Equal(dst, tcase.cipherText) {
-			t.Errorf("Encrypt %d case: not equal", i)
-			return
-		}
-		t.Logf("Encrypt Success %d case", i)
+		assert.Equal(t, dst, tcase.cipherText)
 	}
 }
 
@@ -57,10 +54,6 @@ func TestSeedDecrypt(t *testing.T) {
 		dst := make([]byte, 16)
 		c.Decrypt(dst, tcase.cipherText)
 
-		if !bytes.Equal(dst, tcase.plainText) {
-			t.Errorf("Decrypt %d case: not equal", i)
-			return
-		}
-		t.Logf("Decrypt Success %d case", i)
+		assert.Equal(t, dst, tcase.plainText)
 	}
 }
