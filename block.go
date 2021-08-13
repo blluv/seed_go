@@ -75,12 +75,7 @@ func seedRoundKey(userKey []byte, roundKey []uint32) {
 	roundKeyUpdate0(roundKey, &A, &B, &C, &D, 12, 24)
 	roundKeyUpdate1(roundKey, &A, &B, &C, &D, 13, 26)
 	roundKeyUpdate0(roundKey, &A, &B, &C, &D, 14, 28)
-
-	T0 := A + C - KC[15]
-	T1 := B - D + KC[15]
-
-	roundKey[30] = g_func(T0)
-	roundKey[31] = g_func(T1)
+	roundKeyUpdate1(roundKey, &A, &B, &C, &D, 15, 30)
 }
 
 func seedEncrypt(in []byte, out []byte, roundKey []uint32) {
